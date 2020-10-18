@@ -35,8 +35,8 @@ void DrawSystem::drawScene() {
 
 	fillRect(0, 0, 10000, 10000, Color(30, 30, 30));
 
-	for (int i = 0; i < sys.field.size() / 10; i++) {
-		double height = 300 + (sys.field[i * 10].height - 300);
+	for (int i = 0; i < sys.field.size(); i++) {
+		double height = 300 + (sys.field[i].height - 300);
 		fillRect(i, h - height / 2, 1, height, Color(100, 100, 200));
 	}
 

@@ -8,13 +8,15 @@
 
 
 System::System() {
-	field = std::vector<Cell>(6000);
+	field = std::vector<Cell>(600);
 
-	for (int i = 0; i < 6000; i++) {
-		double x = (i - 3000) * 0.004;
-		field[i].height -= pow(2, -x * x) * 50;
-		//field[i].vel += pow(2, -x * x) * 10;
+	for (int i = 0; i < 600; i++) {
+		double x = (i - 300) * 0.04;
+		//field[i].height += pow(20, -x * x) * 50 - 250;
+		//field[i].height +=  - 250;
+		field[i].vel += pow(2, -x * x) * 10;
 		//field[i].vel = 10;
+		//field[i].height += sin(x) * 50;
 	}
 
 }
