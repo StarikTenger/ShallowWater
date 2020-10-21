@@ -36,8 +36,15 @@ void DrawSystem::drawScene() {
 	fillRect(0, 0, 10000, 10000, Color(30, 30, 30));
 
 	for (int i = 0; i < sys.field.size(); i++) {
+		double bottom = 300 + (sys.field[i].bottom - 300);
 		double height = 300 + (sys.field[i].height - 300);
-		fillRect(i, h - height / 2, 1, height, Color(100, 100, 200));
+		
+		// Water
+		double k = 1 / (1 + pow(2, -sys.field[i].vel));
+		fillRect(i, h - height / 2, 1, height, Color(255* k , 255 * k, 255));
+
+		// Bottom
+		fillRect(i, h - bottom / 2, 1, bottom, Color(100, 255, 50));
 	}
 
 }

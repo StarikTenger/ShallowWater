@@ -6,14 +6,17 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include "Cell.h"
+#include "Mouse.h"
 
-class System{
+class System {
 public:
-	double dt = 0.001;
+	double dt = 0.0003;
 	double dx = 1;
 	double g = 1;
-	double retardCoeff = 10;
+	double retardCoeff = 100;
 	double niggerCoeff = 1;
+
+	Mouse mouse;
 
 	double energy = 0;
 	std::vector<Cell> field;
@@ -21,6 +24,7 @@ public:
 	System();
 	~System();
 
+	double getLevel(std::vector<Cell>& f, int i);
 	void step();
 	
 };

@@ -47,7 +47,8 @@ void Control::step() {
 
 		events();
 		drawSys.mouse = mouse;
-
+		sys.mouse = mouse;
+		
 		for (int i = 0; i < 300; i++) {
 			sys.step();
 		}
@@ -56,6 +57,6 @@ void Control::step() {
 		drawSys.draw();
 		drawSys.window->display();
 
-		std::cout << sys.energy << "\n";
+		//std::cout << sys.energy << "\n";
 	}
 }
