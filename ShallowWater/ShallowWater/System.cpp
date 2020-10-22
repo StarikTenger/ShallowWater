@@ -18,14 +18,19 @@ System::System() {
 	for (int i = 0; i < 600; i++) {
 		double x = (i - 300) * 0.004;
 		//field[i].height += pow(1.7, -x * x) * 100 - 200;
-		//field[i].height +=  - 250;
+		
 		//field[i].vel += pow(2, -x * x) * 10;
+
+		/*if (i < 300)
+			field[i].bottom = interpolateCubic(10, 350, i / 300.0),field[i].height = field[i].bottom;
+		else
+			field[i].bottom = interpolateCubic(10, 350, 2 - i / 300.0), field[i].height = 354, field[i].vel = 2;*/
+
 		field[i].height = 300;
-		field[i].bottom = interpolateCubic(10, 350, i / 600.0);
+		field[i].bottom = 100;
 		//field[i].height += sin(x * 4) * 50 - 250;
 		//field[i].height = interpolateCubic(250, 350, i / 600.0);
 	}
-
 }
 
 System::~System() {

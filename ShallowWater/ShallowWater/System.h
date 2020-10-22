@@ -10,7 +10,8 @@
 
 class System {
 public:
-	double dt = 0.0003;
+	double dt = 0.0001;
+	double time = 0;
 	double dx = 1;
 	double g = 1;
 	double retardCoeff = 100;

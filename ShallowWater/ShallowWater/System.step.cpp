@@ -7,6 +7,11 @@
 void System::step() {
 	auto fieldOld = field;
 
+	// Counting height
+	for (int i = 0; i < field.size(); i++) {
+		field[i].height = field[i].level + field[i].bottom;
+	}
+
 	// Pidor equations
 	for (int i = 0; i < field.size(); i++) {
 		if (i != field.size() - 1) {
@@ -14,41 +19,40 @@ void System::step() {
 				// Vel
 				field[i].vel += (-fieldOld[i].vel * (fieldOld[i + 1].vel - fieldOld[i].vel) / dx -
 					g * (fieldOld[i + 1].height - fieldOld[i].height) / dx) * dt;
-				field[i].height -= (getLevel(fieldOld, i + 1) * fieldOld[i + 1].vel
-					- getLevel(fieldOld, i) * fieldOld[i].vel) / dx * dt;
+				field[i].level -= (fieldOld[i + 1].level * fieldOld[i + 1].vel
+					- fieldOld[i].level * fieldOld[i].vel) / dx * dt;
 			} else
-				field[i].height -= (getLevel(fieldOld, i + 1) * fieldOld[i + 1].vel) / dx * dt;
+				field[i].level -= (fieldOld[i + 1].level * fieldOld[i + 1].vel) / dx * dt;
 			field[i].vel += (fieldOld[i + 1].vel - fieldOld[i].vel) / dx / dx * dt * niggerCoeff;
 
-			// Height
+			// Level
 			
-			field[i].height += (fieldOld[i + 1].height - fieldOld[i].height) / dx / dx * dt * retardCoeff;
+			field[i].level += (fieldOld[i + 1].height - fieldOld[i].height) / dx / dx * dt * retardCoeff;
 		}
 		if (i != 0) {
 			if (i != field.size() - 1) {
 				// Vel
 				field[i].vel += (-fieldOld[i].vel * (fieldOld[i].vel - fieldOld[i - 1].vel) / dx -
 					g * (fieldOld[i].height - fieldOld[i - 1].height) / dx) * dt;
-				field[i].height -= (getLevel(fieldOld, i) * fieldOld[i].vel
+				field[i].level -= (fieldOld[i].level * fieldOld[i].vel
 					- getLevel(fieldOld, i - 1) * fieldOld[i - 1].vel) / dx * dt;
 			} else
-				field[i].height -= ( -getLevel(fieldOld, i - 1) * fieldOld[i - 1].vel) / dx * dt;
+				field[i].level -= ( -getLevel(fieldOld, i - 1) * fieldOld[i - 1].vel) / dx * dt;
 			field[i].vel += (fieldOld[i - 1].vel - fieldOld[i].vel) / dx / dx * dt * niggerCoeff;
 
-			// Height
+			// Level
 			
-			field[i].height += (fieldOld[i - 1].height - fieldOld[i].height) / dx / dx * dt * retardCoeff;
-
-			if (field[i].height < 0 || field[i].height > 600) {
-				std::cout << "Shcwach!!!\n";
-			}
+			field[i].level += (fieldOld[i - 1].height - fieldOld[i].height) / dx / dx * dt * retardCoeff;
 		}
 	}
 
 	// Height correction
 	for (int i = 0; i < field.size(); i++) {
-		if (field[i].height < field[i].bottom)
-			field[i].height = field[i].bottom;
+		if (field[i].height - field[i].bottom < 0.1) {
+			field[i].vel = 0;
+			if (field[i].height - field[i].bottom < 0)
+				field[i].height = field[i].bottom;
+		}
 	}
 
 	// Peak detection
@@ -60,7 +64,7 @@ void System::step() {
 		if (abs(h0 - h1) > threshold &&
 			abs(h2 - h1) > threshold) {
 			field[i].height = (h0 + h2) / 2;
-			std::cout << "PEAK DETECTED\n";
+			//std::cout << "PEAK DETECTED\n";
 		}
 	}
 
@@ -76,6 +80,11 @@ void System::step() {
 			field[i].vel += acc * 400;
 		}
 
+	// Bottom
+	for (int i = 0; i < field.size(); i++) {
+		field[i].bottom = 50 + sin(i * 0.03 + time * 3) * 20;
+	}
+
 	energy = 0;
 	for (int i = 0; i < field.size(); i++) {
 		//energy += field[i].vel * field[i].vel * field[i].height;
@@ -83,4 +92,5 @@ void System::step() {
 		energy += field[i].height * (i % 2 ? 1 : -1);
 	}
 
+	time += dt;
 }

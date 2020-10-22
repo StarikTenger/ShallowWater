@@ -44,7 +44,7 @@ void DrawSystem::drawScene() {
 		fillRect(i, h - height / 2, 1, height, Color(255* k , 255 * k, 255));
 
 		// Bottom
-		fillRect(i, h - bottom / 2, 1, bottom, Color(100, 255, 50));
+		fillRect(i, h - bottom / 2, 1, bottom, Color(0, 0, 0));
 	}
 
 }

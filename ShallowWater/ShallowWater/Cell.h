@@ -1,8 +1,10 @@
 #pragma once
 class Cell {
 public:
-	double height = 300;
-	double vel = 0;
+	double level = 300; // Relative level
+	double height = 300; // Absolute level
 	double bottom = 0;
+
+	double vel = 0;
 };
 
